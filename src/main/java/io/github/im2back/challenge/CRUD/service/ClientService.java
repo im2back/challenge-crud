@@ -47,9 +47,9 @@ public class ClientService {
 	}
 
 	@Transactional
-	public ClientDtoOutput updateClient(ClientDtoInputUpdate dtoInput) {
+	public ClientDtoOutput updateClient(ClientDtoInputUpdate dtoInput,Long id) {
 		
-		Client client = getClient(dtoInput.id());
+		Client client = getClient(id);
 		client.update(dtoInput);
 		
 		Client clientSaved = clientRepository.save(client);

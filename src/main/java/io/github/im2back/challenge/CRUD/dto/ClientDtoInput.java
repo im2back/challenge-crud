@@ -2,8 +2,6 @@ package io.github.im2back.challenge.CRUD.dto;
 
 import java.time.LocalDate;
 
-import org.hibernate.validator.constraints.br.CPF;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
@@ -15,7 +13,6 @@ public record ClientDtoInput(
 		 @Size(max = 20,min = 6)
 		 String name,
 		 
-		 @CPF(message="cpf inválido")
 		 @NotBlank(message = "Forneça um CPF válido.")
 		 String cpf,
 		 

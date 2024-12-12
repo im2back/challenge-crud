@@ -21,49 +21,48 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("client")
+@RequestMapping("clients")
 @RequiredArgsConstructor
 public class ClientController {
 
 	private final ClientService clientService;
-	
+
 	@GetMapping("/{id}")
-	public ResponseEntity<ClientDtoOutput> getClientById(@PathVariable Long id){
+	public ResponseEntity<ClientDtoOutput> getClientById(@PathVariable Long id) {
 		ClientDtoOutput clientDtoOutput = clientService.getClientById(id);
 		return ResponseEntity.ok(clientDtoOutput);
 	}
-	
-	@GetMapping("/findall")
-	public ResponseEntity<Page<ClientDtoOutput>> findAllClients(Pageable pageable){
+
+	@GetMapping
+	public ResponseEntity<Page<ClientDtoOutput>> findAllClients(Pageable pageable) {
 		Page<ClientDtoOutput> clientDtoOutput = clientService.findAllClients(pageable);
 		return ResponseEntity.ok(clientDtoOutput);
 	}
-	
-	@PostMapping("/save")
-	public ResponseEntity<ClientDtoOutput> saveNewClient(@RequestBody @Valid ClientDtoInput dtoInput, UriComponentsBuilder uriBuilder){
+
+	@PostMapping
+	public ResponseEntity<ClientDtoOutput> saveNewClient(@RequestBody @Valid ClientDtoInput dtoInput,
+			UriComponentsBuilder uriBuilder) {
 		ClientDtoOutput clientDtoOutput = clientService.saveNewClient(dtoInput);
-		
+
 		var uri = uriBuilder.path("client/{id}").buildAndExpand(clientDtoOutput.id()).toUri();
 		return ResponseEntity.created(uri).body(clientDtoOutput);
 	}
-	
-	@PutMapping("/update")
-	public ResponseEntity<ClientDtoOutput> updateClient(@RequestBody @Valid ClientDtoInputUpdate dtoInput, UriComponentsBuilder uriBuilder){
-		
-		ClientDtoOutput clientDtoOutput = clientService.updateClient(dtoInput);
-		
+
+	@PutMapping("/{id}")
+	public ResponseEntity<ClientDtoOutput> updateClient(@RequestBody @Valid ClientDtoInputUpdate dtoInput,
+			UriComponentsBuilder uriBuilder, @PathVariable Long id) {
+
+		ClientDtoOutput clientDtoOutput = clientService.updateClient(dtoInput, id);
+
 		return ResponseEntity.ok().body(clientDtoOutput);
-		
+
 	}
-	
-	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<Void> deleteById(@PathVariable Long id){
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Void> deleteById(@PathVariable Long id) {
 		clientService.deleteById(id);
 		return ResponseEntity.noContent().build();
-		
+
 	}
-	
-	
-	
-	
+
 }
